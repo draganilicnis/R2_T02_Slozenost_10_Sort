@@ -32,3 +32,533 @@ class Program
         foreach (int x in a) Console.WriteLine(x);
     }
 }
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 02. Sortiranje selekcijom: SelectionSort ver 2: O(N^2)
+
+using System;
+
+class Program
+{
+    static void Razmeni(ref int x, ref int y)
+    {
+        int tmp = x; x = y; y = tmp;    // razmenjuje sadrzaj promenljivih x i y
+    }
+    
+    static void SelectionSort(int[] a)
+    {
+        // na svaku poziciju i dovodimo najmanji element iz dela niza na pozicijama [i, n)
+        for (int i = 0; i < a.Length; i++)
+        {
+            int pmin = i;   // pozicija najmanjeg elementa u delu [i, n)
+            for (int j = i + 1; j < a.Length; j++)
+                // ako je element na poziciji j manji od elementa na poziciji pmin,
+                // nasli smo novi minimum, pa azuriramo vrednost pmin
+                if (a[pmin] > a[j])
+                    pmin = j;
+            Razmeni(ref a[i], ref a[pmin]); // razmenjujemo element na poziciji i sa minimumom
+        }   
+    }
+    
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        SelectionSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 03. Sortiranje umetanjem: InsertionSort: O(N^2)
+
+using System;
+
+class Program
+{
+    static void Razmeni(ref int x, ref int y)
+    {
+        int tmp = x; x = y; y = tmp;    // razmenjuje sadrzaj promenljivih x i y
+    }
+
+    static void InsertionSort(int[] a)
+    {
+        // element sa pozicije i umecemo u vec sortirani prefiks na pozicijama [0, i)
+        for (int i = 1; i < a.Length; i++)
+        {
+            // dok je element na poziciji j manji od njemu prethodnog razmenjujemo ih
+            for (int j = i; j > 0 && a[j] < a[j - 1]; j--)
+                Razmeni(ref a[j], ref a[j - 1]);
+        }
+    }
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        InsertionSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 04. Sortiranje umetanjem: InsertionSort ver 2: O(N^2)
+
+using System;
+
+class Program
+{
+    static void InsertionSort(int[] a)
+    {
+        // element sa pozicije i umecemo u vec sortirani prefiks na pozicijama [0, i)
+        for (int i = 1; i < a.Length; i++)
+        {
+            // pamtimo element na poziciji i
+            int tmp = a[i];
+            // sve elemente koji su veci od njega pomeramo za jednu poziciju udesno
+            int j;
+            for (j = i - 1; j >= 0 && a[j] > tmp; j--)
+                a[j + 1] = a[j];
+            a[j + 1] = tmp; // stavljamo element sa pozicije i na njegovo mesto
+        }
+    }
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        InsertionSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 05. Sortiranje niza biblioteckom funkcijom: Array.Sort(a): O(N * Log N)
+
+using System;
+
+class Program
+{
+    static int[] UcitajNiz()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        return a;
+    }
+
+    static void IspisiNiz(int[] a)
+    {
+        foreach (int x in a) Console.WriteLine(x);
+    }
+
+    static void Main()
+    {
+        int[] a = UcitajNiz();   // ucitavanje niza
+        Array.Sort(a);           // sortiranje niza
+        IspisiNiz(a);            // ispis rezultata
+    }
+}
+
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 06. Sortiranje liste biblioteckom funkcijom: List.Sort: O(N * Log N)
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+
+    static List<int> UcitajListu()
+    {
+        int n = int.Parse(Console.ReadLine());
+        List<int> a = new List<int>(n);
+        for (int i = 0; i < n; i++) a.Add(int.Parse(Console.ReadLine()));
+        return a;
+    }
+
+    static void IspisiListu(List<int> a)
+    {
+        foreach (int x in a) Console.WriteLine(x);
+    }
+
+    static void Main()
+    {
+        List<int> a = UcitajListu();   // ucitavanje liste
+        a.Sort();                      // sortiranje liste
+        IspisiListu(a);                // ispis rezultata
+    }
+}
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 07. Nerekurzivno brzo sortiranje koriscenjem steka: O(N * Log N)
+
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Razmeni(ref int a, ref int b)
+    {
+        int tmp = a;
+        a = b;
+        b = tmp;
+    }
+
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+
+        var sortirati = new Stack<Tuple<int, int>>();   // stek na kome čuvamo argumente rekurzivnih poziva
+        
+        sortirati.Push(Tuple.Create(0, n - 1));         // sortiranje kreće od obrade celog niza tj. pozicija (0, n-1)
+        while (sortirati.Count > 0)
+        {
+            var p = sortirati.Pop();                    // skidamo par (l, d) sa vrha steka
+            int l = p.Item1;                            // obrađujemo par (l, d) na isti način kao u rekurzivnoj implementaciji
+            int d = p.Item2;                            // obrađujemo par (l, d) na isti način kao u rekurzivnoj implementaciji
+            if (d - l < 1)
+                continue;
+            int k = l;
+            for (int i = l + 1; i <= d; i++)
+                if (a[i] < a[l])
+                    Razmeni(ref a[++k], ref a[i]);
+            Razmeni(ref a[k], ref a[l]);
+            // umesto rekurzivnih poziva njihove argumente postavljamo na stek
+            sortirati.Push(Tuple.Create(l, k - 1));
+            sortirati.Push(Tuple.Create(k + 1, d));
+        }
+       
+        foreach (int x in a) Console.WriteLine(x);  // ispisujemo sortirani niz
+    }
+}
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 08. Sortiranje objedinjavanjem: MergeSort O(N * Log N)
+
+using System;
+
+class Program
+{
+    // ucesljava deo niza a iz intervala pozicija [i, m] i deo niza b iz intervala pozicija [j, n] koji su vec sortirani
+    // tako da se dobije sortiran rezultat koji se smesta u niz c, krenuvsi od pozicije k
+    static void Merge(int[] a, int i, int m, int[] b, int j, int n, int[] c, int k)
+    {
+        while (i <= m && j <= n) c[k++] = (a[i] <= b[j]) ? a[i++] : b[j++];
+        while (i <= m) c[k++] = a[i++];
+        while (j <= n) c[k++] = b[j++];
+    }
+    
+    static void MergeSort(int[] a, int l, int d, int[] tmp) // sortira deo niza a iz intervala pozicija [l, d] koristeci niz tmp kao pomocni
+    {
+        if (l < d)                                  // ako je segment [l, d] jednoclan ili prazan, niz je vec sortiran
+        {
+            int s = l + (d - l) / 2;                // sredina segmenta [l, d]
+            MergeSort(a, l, s, tmp);                // sortiramo segment [l, s]
+            MergeSort(a, s + 1, d, tmp);            // sortiramo segment [s+1, d]
+            Merge(a, l, s, a, s + 1, d, tmp, l);    // ucesljavamo segmente [l, s] i [s+1, d] smestajuci rezultat u niz tmp
+            for (int i = l; i <= d; i++) 
+                a[i] = tmp[i];                      // vracamo rezultat iz niza tmp nazad u niz a // Moze i Array.Copy(tmp, l, a, l, d - l + 1)
+        }
+    }
+    static void MergeSort(int[] a)
+    {
+        int[] tmp = new int[a.Length];          // alociramo pomocni niz
+        MergeSort(a, 0, a.Length - 1, tmp);     // pozivamo funkciju sortiranja
+    }
+
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());  
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        MergeSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 09. Brzo sortiranje: QuickSort O(N * Log N)
+
+using System;
+
+class Program
+{
+    static Random rnd = new Random(); // generator nasumicnih brojeva
+    static void swap(ref int x, ref int y)
+    {
+        int tmp = x; x = y; y = tmp;
+    }
+    static void QuickSort(int[] a, int l, int d)        // soritra segment pozicija [l, d] u nizu a
+    {
+        if (l < d)  // ako segment [l, d] jedan ili nula elementa on je vec sortiran
+        {
+            swap(ref a[l], ref a[l + rnd.Next(d - l + 1)]); // za pivot uzimamo proizvoljan element segmenta
+            // particionisemo niz tako da se u njemu prvo javljaju elementi manji ili jednaki pivotu, a zatim veci od pivota
+            // tokom rada vazi [l, k] su manji ili jednaki pivotu (k, i) su veci od pivota, [i, d] su jos neispitani
+            int k = l;
+            for (int i = l + 1; i <= d; i++)
+                if (a[i] <= a[l])
+                    swap(ref a[i], ref a[++k]);
+            swap(ref a[l], ref a[k]);   // razmenjujemo pivot sa poslednjim manjim ili jednakim elementom
+            // rekurzivno sortiramo deo niza levo i desno od pivota
+            QuickSort(a, l, k - 1);
+            QuickSort(a, k + 1, d);
+        }
+    }
+    static void QuickSort(int[] a)
+    {
+        QuickSort(a, 0, a.Length - 1);  // poziv pomocne funkcije koja u nizu a sortira segment pozicija [0, n-1]
+    }
+
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        QuickSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 09. Brzo sortiranje: QuickSort O(N * Log N) ---- + "\n"
+
+using System;
+
+class Program
+{
+    static Random rnd = new Random(); // generator nasumicnih brojeva
+    static void swap(ref int x, ref int y)
+    {
+        int tmp = x; x = y; y = tmp;
+    }
+    static void QuickSort(int[] a, int l, int d)        // soritra segment pozicija [l, d] u nizu a
+    {
+        if (l < d)  // ako segment [l, d] jedan ili nula elementa on je vec sortiran
+        {
+            swap(ref a[l], ref a[l + rnd.Next(d - l + 1)]); // za pivot uzimamo proizvoljan element segmenta
+            // particionisemo niz tako da se u njemu prvo javljaju elementi manji ili jednaki pivotu, a zatim veci od pivota
+            // tokom rada vazi [l, k] su manji ili jednaki pivotu (k, i) su veci od pivota, [i, d] su jos neispitani
+            int k = l;
+            for (int i = l + 1; i <= d; i++)
+                if (a[i] <= a[l])
+                    swap(ref a[i], ref a[++k]);
+            swap(ref a[l], ref a[k]);   // razmenjujemo pivot sa poslednjim manjim ili jednakim elementom
+            // rekurzivno sortiramo deo niza levo i desno od pivota
+            QuickSort(a, l, k - 1);
+            QuickSort(a, k + 1, d);
+        }
+    }
+    static void QuickSort(int[] a)
+    {
+        QuickSort(a, 0, a.Length - 1);  // poziv pomocne funkcije koja u nizu a sortira segment pozicija [0, n-1]
+    }
+
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        QuickSort(a);
+        foreach (int x in a) Console.WriteLine(x + "\n");
+    }
+}
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 10. Sortiranje pomocu multiskupa: u C# ne postoji multiskup, pa se implementira preko SortedDictionary-a O(N * Log N)
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        // Multiplex(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 11. Sortiranje objedinjavanjem koriscenjem reda: MergeSort O(N * Log N)
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static Queue<int> Merge(Queue<int> prvi, Queue<int> drugi)
+    {
+        Queue<int> res = new Queue<int>();
+        while (prvi.Count > 0 || drugi.Count > 0)
+        {
+            if (drugi.Count == 0 || (prvi.Count > 0 && prvi.Peek() <= drugi.Peek()))
+            {
+                res.Enqueue(prvi.Peek());
+                prvi.Dequeue();
+            }
+            else
+            {
+                res.Enqueue(drugi.Peek());
+                drugi.Dequeue();
+            }
+        }
+        return res;
+    }
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        var q = new Queue<Queue<int>>();
+        for (int i = 0; i < n; i++)
+        {
+            int x = int.Parse(Console.ReadLine());
+            var t = new Queue<int>();
+            t.Enqueue(x);
+            q.Enqueue(t);
+        }
+        while (q.Count() > 1)
+        {
+            var prvi = q.Peek();
+            q.Dequeue();
+            var drugi = q.Peek();
+            q.Dequeue();
+            q.Enqueue(Merge(prvi, drugi));
+        }
+        var res = q.Peek();
+        while (res.Count > 0)
+        {
+            Console.WriteLine(res.Peek());
+            res.Dequeue();
+        }
+    }
+}
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 12. Sortiranje objedinjavanjem koriscenjem reda: MergeSort O(N * Log N) -----> + "\n"
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Program
+{
+    static Queue<int> Merge(Queue<int> prvi, Queue<int> drugi)
+    {
+        Queue<int> res = new Queue<int>();
+        while (prvi.Count > 0 || drugi.Count > 0)
+        {
+            if (drugi.Count == 0 || (prvi.Count > 0 && prvi.Peek() <= drugi.Peek()))
+            {
+                res.Enqueue(prvi.Peek());
+                prvi.Dequeue();
+            }
+            else
+            {
+                res.Enqueue(drugi.Peek());
+                drugi.Dequeue();
+            }
+        }
+        return res;
+    }
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        var q = new Queue<Queue<int>>();
+        for (int i = 0; i < n; i++)
+        {
+            int x = int.Parse(Console.ReadLine());
+            var t = new Queue<int>();
+            t.Enqueue(x);
+            q.Enqueue(t);
+        }
+        while (q.Count() > 1)
+        {
+            var prvi = q.Peek();
+            q.Dequeue();
+            var drugi = q.Peek();
+            q.Dequeue();
+            q.Enqueue(Merge(prvi, drugi));
+        }
+        var res = q.Peek();
+        while (res.Count > 0)
+        {
+            Console.WriteLine(res.Peek() + " ");  // Console.Write(res.Peek() + "\n");
+            res.Dequeue();
+        }
+    }
+}
