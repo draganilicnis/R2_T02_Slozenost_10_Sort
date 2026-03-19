@@ -562,3 +562,545 @@ class Program
         }
     }
 }
+
+
+
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+// https://github.com/draganilicnis/R2_T02_Slozenost_10_Sort/blob/main/R2_T02_Slozenost_10_Sort.txt
+
+
+// 13. Sortiranje objedinjavanjem koriscenjem reda (i za ispis StringBuilder-a): MergeSort O(N * Log N) -----> + "\n"
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+class Program
+{
+    static Queue<int> Merge(Queue<int> prvi, Queue<int> drugi)
+    {
+        Queue<int> res = new Queue<int>();
+        while (prvi.Count > 0 || drugi.Count > 0)
+        {
+            if (drugi.Count == 0 || (prvi.Count > 0 && prvi.Peek() <= drugi.Peek()))
+            {
+                res.Enqueue(prvi.Peek());
+                prvi.Dequeue();
+            }
+            else
+            {
+                res.Enqueue(drugi.Peek());
+                drugi.Dequeue();
+            }
+        }
+        return res;
+    }
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        var q = new Queue<Queue<int>>();
+        for (int i = 0; i < n; i++)
+        {
+            int x = int.Parse(Console.ReadLine());
+            var t = new Queue<int>();
+            t.Enqueue(x);
+            q.Enqueue(t);
+        }
+        while (q.Count() > 1)
+        {
+            var prvi = q.Peek();
+            q.Dequeue();
+            var drugi = q.Peek();
+            q.Dequeue();
+            q.Enqueue(Merge(prvi, drugi));
+        }
+        StringBuilder sb = new StringBuilder();
+        var res = q.Peek();
+        while (res.Count > 0)
+        {
+            sb.Append(res.Peek() + "\n");   // umesto: Console.WriteLine(res.Peek() + " "); // Console.Write(res.Peek() + "\n");
+            res.Dequeue();
+        }
+        Console.WriteLine(sb);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//*****
+// 2024
+// 2024-02-10 21:30
+//****
+
+
+
+
+// https://petlja.org/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+// https://www.petlja.org/biblioteka/r/Zbirka-python/sortiranje_brojeva
+// https://petlja.org/biblioteka/r/Zbirka2/01%20slozenost/01%20sortiranje
+// https://arena.petlja.org/competition/r2-02-slozenost-03-sortiranje-01-funkcije#tab_132337
+// https://arena.petlja.org/competition/r10701nizovi03sortiranje#tab_96013
+// https://www.geeksforgeeks.org/selection-sort/
+// https://www.tutorialspoint.com/data_structures_algorithms/selection_sort_algorithm.htm
+// https://www.toptal.com/developers/sorting-algorithms
+// https://petlja.org/biblioteka/r/lekcije/03-Iteracija/00-male_serije/03-sortiranje
+// https://dragilic.files.wordpress.com/2018/01/r3_09_niz_sort_02_bubble_sort.gif
+// https://www.youtube.com/watch?v=y3hf_dU9mlE
+// https://www.youtube.com/watch?v=HpDUUSQuJQo
+// https://youtu.be/kPRA0W1kECg?si=w6FkFSL0KDFLkzw5
+// https://youtu.be/Z9f_xgJ6Sj4?si=nZgP76yvcVyg6w-W
+// https://youtu.be/Ns4TPTC8whw?si=kwZ2SVCyZQ9pzmx6
+// https://petlja.org/kurs/11172/2/2350
+
+
+using System;
+using System.Text;
+// using System.Diagnostics;
+// using System.Collections.Generic;
+
+class Zadatak_Sortiranje_000_Niz_Array
+{
+    static void Razmeni(ref int x, ref int y)
+    {
+        int p = x; x = y; y = p;
+    }
+    static int[] Niz_Ucitaj()
+    {
+        // n = 82664 t = 00.012s
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        return a;
+    }
+    static void Niz_Ispisi(int[] a)
+    {
+        // n = 82664 t = 00.290s
+        foreach (int x in a) Console.Write(x + "\n");
+        // for (int i = 0; i < a.Length; i++) Console.Write(a[i] + "\n");
+    }
+    static void Niz_Ispisi_StringBuilder(int[] a)
+    {
+        // n = 82664 t = 00.014s
+        StringBuilder s = new StringBuilder();
+        foreach (int x in a) s.Append(x + "\n");
+        Console.Write(s);
+    }
+    static void Main()
+    {
+        int[] a = Niz_Ucitaj();                                     // n = 82664 t = 00.012s
+        Array.Sort(a);                                              // n = 82664 t = 00.005s
+        Niz_Ispisi_StringBuilder(a);                                // n = 82664 t = 00.014s
+                                                                    // n = 82664 t = 00.032s
+        /*
+        Stopwatch t = new Stopwatch();
+
+        t.Start();
+        int[] b = Niz_Ucitaj();                                     // n = 82664 t = 00.012s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();          
+
+        t.Start();
+        int[] a = (int[])(b.Clone());                               // n = 82664 t = 00.000s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();          
+
+        t.Start();
+        Sort_Metoda_001_SelectSort_Ver_01_Niz(a);                   // n = 82664 t = 24.357s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_002_SelectSort_Ver_02_Niz(a);                   // n = 82664 t = 07.741s 
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_003_InsertionSort_Ver_01_Niz(a);                // n = 82664 t = 09.707s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_004_InsertionSort_Ver_02_Niz(a);                // n = 82664 t = 05.022s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_005_BubbleSort_Ver_01_Niz(a);                   // n = 82664 t = 32.520s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_006_BubbleSort_Ver_02_Niz(a);                   // n = 82664 t = 24.564s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_007_ShellSort_Ver_01_Niz(a);                    // n = 82664 t = 00.023s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_008_MergeSort_Ver_01_Niz(a);                    // n = 82664 t = 00.016s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_009_QuickSort_Ver_01_Niz(a);                    // n = 82664 t = 00.063s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_010_HeapSort_Ver_01_Niz(a);                     // n = 82664 t = 00.028s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+        
+        a = (int[])(b.Clone()); t.Start();
+        Sort_Metoda_011_ArraySort_Ver_01_Niz(a);                    // n = 82664 t = 00.005s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        //t.Start();
+        //Niz_Ispisi(b);                                            // n = 82664 t = 00.290s
+        //t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        t.Start();
+        Niz_Ispisi_StringBuilder(b);                                // n = 82664 t = 00.014s
+        t.Stop(); Console.WriteLine(t.Elapsed); t.Reset();
+
+        */
+    }
+
+
+    // *** Metod 01: Selekcija
+    // SelectionSort Ver 01: Skolski j = i + 1 to n                 // O(N*N)
+    //                                                              // n = 82664 t = 24.357s
+    // Resenje 07: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_001_SelectSort_Ver_01_Niz(int[] a)      
+    {
+        int n = a.Length;
+        for (int i = 0; i < n - 1; i++)
+            for (int j = i + 1; j < n; j++)
+                if (a[i] > a[j])
+                    Razmeni(ref a[i], ref a[j]);
+    }
+
+
+    // *** Metod 01: Selekcija malo brzi (Min ID)
+    // SelectionSort Ver 02: MinID                                  // O(N*N) malo brzi (duplo brzi)
+    //                                                              // n = 82664 t = 07.741s
+    // Resenje 06: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_002_SelectSort_Ver_02_Niz(int[] a)      
+    {
+        int n = a.Length;
+        for (int i = 0; i < n - 1; i++)
+        {
+            int MinJ = i;
+            for (int j = i + 1; j < n; j++)
+                if (a[MinJ] > a[j]) MinJ = j;
+            Razmeni(ref a[i], ref a[MinJ]);
+        }
+    }
+
+
+    // *** Metod 02: Umetanje
+    // InsertionSort Ver 01:                                        // O(N*N)
+    //                                                              // n = 82664 t = 09.707s
+    // Resenje 08: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_003_InsertionSort_Ver_01_Niz(int[] a)
+    {
+        // Element sa pozicije i umecemo u vec sortirani prefiks na pozicijama [0, i)
+        int n = a.Length;
+        for (int i = 1; i < n; i++)
+        {
+            // Sve dok je element na poziciji j manji od njemu prethodnog (j-1) razmenjujemo ih 
+            for (int j = i; j > 0 && a[j - 1] > a[j]; j--)
+                Razmeni(ref a[j], ref a[j - 1]);
+        }
+    }
+
+
+    // *** Metod 02: Umetanje malo brzi
+    // InsertionSort Ver 02:                                        // O(N*N) malo brzi (duplo brzi)
+    //                                                              // n = 82664 t = 05.022s
+    // Resenje 09: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_004_InsertionSort_Ver_02_Niz(int[] a)
+    {
+        // Element sa pozicije i umecemo u vec sortirani prefiks na pozicijama [0, i)
+        int n = a.Length;
+        for (int i = 1; i < n; i++)
+        {
+            // 1. Pamtimo element na poziciji i
+            int p = a[i];
+            // 2. Sve elemente levo od i, a koji su veci od njega (a[i]) pomeramo za jednu poziciju udesno
+            int j = i - 1;
+            for (j = i - 1; j >= 0 && a[j] > p; j--)
+                a[j + 1] = a[j];
+            // 3. Stavljamo element sa pozicije i na njegovo mesto j + 1
+            a[j + 1] = p;
+        }
+    }
+
+
+    // *** Metod 03: Mehur
+    // BubbleSort Ver 01:                                           // O(N*N)
+    //                                                              // n = 82664 t = 32.520s
+    // Resenje 10: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_005_BubbleSort_Ver_01_Niz(int[] a)
+    {
+        int n = a.Length;
+        bool bNiz_Promenjen = true;        // Da li se niz promenio tokom tekuce iteracije
+        while (bNiz_Promenjen)
+        {
+            // Postupak ponavljamo sve dok je bilo promena tokom tekuce iteracije.
+            // Ako nije bilo promena, znaci da su svaka dva uzastopna elementa u dobrom odnosu, tj. da je niz sortiran
+            bNiz_Promenjen = false;
+            for (int i = 0; i < n - 1; i++)
+                if (a[i] > a[i + 1])
+                {
+                    // Ako su SUSEDNI elementi LOSE RASPOREDJENI
+                    Razmeni(ref a[i], ref a[i + 1]);
+                    bNiz_Promenjen = true;
+                }
+        } 
+    }
+
+
+    // *** Metod 03: Mehur malo brzi
+    // BubbleSort Ver 02:                                           // O(N*N) Malo brzi (duplo brzi)
+    //                                                              // n = 82664 t = 24.564s
+    // Resenje 11: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_006_BubbleSort_Ver_02_Niz(int[] a)
+    {
+        int n = a.Length;
+        // Elementi na pozicijama [D, n) su sortirani i potrebno je sortirati jos samo deo niza na pozicijama [0, D]
+        int D = n - 1;                  // Trenutna pozicija D DESNO
+        while (D > 0)
+        {
+            // Pretpostavljamo da su svi elementi na pozicijama [0, D] sortirani
+            int L = 0;                  // Trenutna pozicija L LEVO
+            // Poredimo uzastopne (susedne) elemente dela niza [0, D]
+            for (int i = 0; i < D; i++)
+                if (a[i] > a[i + 1])
+                {
+                    // Ako su SUSEDNI elementi LOSE RASPOREDJENI
+                    Razmeni(ref a[i], ref a[i + 1]);
+                    // Ne znamo odnos elemenata na pozicijama i i i-1, pa ne mozemo da tvrdimo da je deo [0, i] sortiran.
+                    // Pretpostavljamo da je bar deo [i, D] sortiran
+                    L = i;
+                }
+            // Znamo da je deo na pozicijama [L, D] sortiran, a znali smo i da je deo na pozicijama [D, n) sortiran, pa je sortiran i deo niza [L, n).
+            // Zato je potrebno sortirati jos samo deo [0, kk] i gornju granicu k postavljamo na kk
+            D = L;
+            // Ako je niz [0, L] jednoclan ili prazan, on je sortiran, pa se petlja moze prekinuti
+        }
+    }
+
+
+    // *** Metod 04: Sel
+    // ShellSort Ver 01:                                            // O ( N * Log N )
+    //                                                              // n = 82664 t = 00.023s
+    // Resenje 12: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_007_ShellSort_Ver_01_Niz(int[] a)
+    {
+        int n = a.Length;
+        // Razmaci su redom: n/2, n/4, ..., 1
+        for (int razmak = n / 2; razmak > 0; razmak = razmak / 2)
+            // Primenjujemo insertion sort algoritam na sve podnizove elemenata ciji su elementi na rastojanju razmak
+            for (int i = razmak; i < n; i++)
+            {
+                // Razmatramo razmaknuti podniz koji se zavrsava na poziciji i svi njegovi elementi osim elementa na poziciji su vec sortirani, pa
+                // element na poziciji i umecemo u sortirani prefiks tog razmaknutog podniza
+                int p = a[i];
+                int j;
+                for (j = i - razmak; j >= 0 && a[j] > p; j = j - razmak)
+                    a[j + razmak] = a[j];
+                a[j + razmak] = p;
+            }
+    }
+
+
+    // *** Metod 05: Mesanje
+    // MergeSort Ver 01:                                            // O ( N * Log N )
+    //                                                              // n = 82664 t = 00.016s
+    // Resenje 04: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_008_MergeSort_Ver_01_Niz(int[] a)
+    {
+        int n = a.Length;
+        int[] b = new int[n];               // Alociramo pomocni niz
+        MergeSort(a, 0, n - 1, b);          // Pozivamo funkciju sortiranja
+    }
+
+    // Sortira deo niza a iz intervala pozicija [L, D] koristeci niz b kao pomocni
+    static void MergeSort(int[] a, int L, int D, int[] b)
+    {
+        // Ako je segment [L, D] jednoclan ili prazan, niz je vec sortiran
+        if (L < D)
+        {
+            int S = L + (D - L) / 2;            // Sredina segmenta [L, D]
+            MergeSort(a, L, S, b);              // Sortiramo segment [L, S]
+            MergeSort(a, S + 1, D, b);          // Sortiramo segment [S+1, D]
+            Merge(a, L, S, a, S + 1, D, b, L);  // Ucesljavamo segmente [L, S] i [S+1, D] smestajuci rezultat u niz b
+            // Vracamo rezultat iz niza b nazad u niz a // Moze i Array.Copy(b, L, a, L, D - l + 1)
+            for (int i = L; i <= D; i++) a[i] = b[i];
+
+        }
+    }
+
+    // Ucesljava deo niza a iz intervala pozicija [i, m] i deo niza b iz intervala pozicija [j, n] koji su vec sortirani
+    // tako da se dobije sortiran rezultat koji se smesta u niz c, krenuvsi od pozicije k
+    static void Merge(int[] a, int i, int m, int[] b, int j, int n, int[] c, int k)
+    {
+        while (i <= m && j <= n) c[k++] = a[i] <= b[j] ? a[i++] : b[j++];
+        while (i <= m)           c[k++] = a[i++];
+        while (j <= n)           c[k++] = b[j++];
+    }
+
+
+    // *** Metod 06: Quick
+    // QuickSort Ver 01:                                            // O ( N * Log N )
+    //                                                              // n = 82664 t = 00.063s
+    // Resenje 03: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_009_QuickSort_Ver_01_Niz(int[] a)
+    {
+        int n = a.Length;
+        QuickSort(a, 0, n - 1);             // Pozivamo funkciju sortiranja
+    }
+
+    // soritra segment pozicija [l, d] u nizu a
+    static void QuickSort(int[] a, int l, int d)
+    {
+        // ako segment [l, d] jedan ili nula elementa on je vec sortiran
+        if (l < d)
+        {
+            // za pivot uzimamo proizvoljan element segmenta
+            Razmeni(ref a[l], ref a[l + rnd.Next(d - l + 1)]);
+            // particionisemo niz tako da se u njemu prvo javljaju elementi
+            // manji ili jednaki pivotu, a zatim veci od pivota
+            // tokom rada vazi [l, k] su manji ili jednaki pivotu
+            // (k, i) su veci od pivota, [i, d] su jos neispitani
+            int k = l;
+            for (int i = l + 1; i <= d; i++)
+                if (a[i] <= a[l])
+                    Razmeni(ref a[i], ref a[++k]);
+            // razmenjujemo pivot sa poslednjim manjim ili
+            // jednakim elementom
+            Razmeni(ref a[l], ref a[k]);
+            // rekurzivno sortiramo deo niza levo i desno od pivota
+            QuickSort(a, l, k - 1);
+            QuickSort(a, k + 1, d);
+        }
+    }
+
+    static Random rnd = new Random();
+
+
+    // *** Metod 07: Drvo
+    // HeapSort Ver 01:                                             // O ( N * Log N )
+    //                                                              // n = 82664 t = 00.028s
+    // Resenje 05: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_010_HeapSort_Ver_01_Niz(int[] a)
+    {
+        // Od niza pravi hip - binarno drvo u cijem se svakom cvoru nalazi element koji je veci ili jednak od svojih potomaka.
+        // Drvo je u niz smesteno po nivoima. Na primer:
+        //        13
+        //    8        10           13 8 10 4 2 5
+        // 4     2   5
+        Hip_Napravi(a);
+        Hip_Sort(a);    // Od niza u kojem se nalazi hip pravi sortirani niz
+    }
+
+    static void Hip_Napravi(int[] a)
+    {
+        int n = a.Length;   // Od niza pravi hip za sve pozicije od 1 do a.Length-1
+        for (int i = 1; i < n; i++)
+            // Na pozicijama [0, i) je vec napravljen hip element
+            // Na poziciji i jedini ne mora da zadovoljava uslov pa ga pomeramo navise tako da dobijemo hip na pozicijama [0, i]
+            Hip_Pomeri_Gore(a, i);
+    }
+    static void Hip_Sort(int[] a)
+    {
+        // Od niza u kojem se nalazi hip pravi sortirani niz za sve pozicije od a.Length-1 unazad do 1
+        int n = a.Length;
+        for (int k = n - 1; k > 0; k--)
+        {
+            // Najveci element u hipu razmenjujemo sa elementom na poziciji n
+            Razmeni(ref a[0], ref a[k]);
+            // Element na vrhu ne mora biti na svom mestu u hipu koji ima k elemenata pa ga pomeramo na dole tako da tih prvih k elemenata cine ispravan hip
+            Hip_Pomeri_Dole(a, 0, k);
+        }
+    }
+    static void Hip_Pomeri_Gore(int[] a, int i)
+    {
+        // Svi elementu u nizu a na pozicijama [0, i) zadovoljavaju uslov hipa pomera se element na poziciji i navise tako da
+        // nakon toga svi elementi na pozicijama [0, i] zadovoljavaju uslov hipa
+        while (i > 0)
+        {
+            int roditelj = (i - 1) / 2;     // Roditelj cvora na poziciji i
+            // Ako element nije veci od svog roditelja, postupak je zavrsen
+            if (a[i] <= a[roditelj])
+                break;
+            // Inace razmenjujemo element sa svojim roditeljem
+            Razmeni(ref a[i], ref a[roditelj]);
+            // i postupak nastavljamo od pozicije roditelja
+            i = roditelj;
+        }
+    }
+    static void Hip_Pomeri_Dole(int[] a, int i, int n)
+    {
+        // Svi elementi u nizu a na pozicijama od 0 do n-1 zadovoljavaju uslov hipa
+        // osim eventualno elementa na poziciji i koji moze biti manji od svojih potomaka
+        // (ali je svakako manji ili jednak svom roditelju, ako roditelj postoji) - element se pomera nanize,
+        // tako da se na pozicijama 0 do n-1 dobije ispravan hip
+        while (true)
+        {
+            // Pozicija sa kojom treba zameniti element na poziciji i vrednost i govori da element ne treba menjati
+            int menjam = i;
+            // Pozicija levog i desnog potomka cvora i
+            int levi = 2 * i + 1;
+            int desni = 2 * i + 2;
+            // Ako element na poziciji i ima levog potomka i ako je manji od njega trebalo bi da se zameni sa levim
+            if (levi < n && a[i] < a[levi])
+                menjam = levi;
+            // Medjutim, ako postoji i desni potomak i ako je on jos manji trebalo bi da se zameni sa njim
+            if (desni < n && a[menjam] < a[desni])
+                menjam = desni;
+            // Ako je menjam ostalo na vrednosti i znaci da nije manje ni od jednog potomka i posao je zavrsen
+            if (menjam == i)
+                break;
+            // U suprotnom menjamo element sa svojim potomkom
+            Razmeni(ref a[i], ref a[menjam]);
+            // i nastavljamo postupak popravke od tog potomka
+            i = menjam;
+        }
+    }
+
+    // *** Metod 08: Bibliotecka funkcija
+    // ArraySort Ver 00:                                            // O ( N * Log N )
+    //                                                              // n = 82664 t = 00.005s
+    // Resenje 02: https://petlja.org/biblioteka/r/problemi/Zbirka-stara/sortiranje_brojeva
+    static void Sort_Metoda_011_ArraySort_Ver_01_Niz(int[] a)
+    {
+        Array.Sort(a);
+    }
+}
