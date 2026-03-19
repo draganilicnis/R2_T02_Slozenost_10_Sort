@@ -1,0 +1,34 @@
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva1
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva2
+// https://petlja.org/sr-Latn-RS/biblioteka/r/Zbirka2/sortiranje_brojeva3
+
+// 01. Sortiranje selekcijom: SelectionSort: O(N^2)
+
+using System;
+
+class Program
+{
+    static void Razmeni(ref int x, ref int y)
+    {
+        int tmp = x; x = y; y = tmp;    // razmenjuje sadrzaj promenljivih x i y
+    }
+    
+    static void SelectionSort(int[] a)
+    {
+        // na svaku poziciju i dovodimo najmanji element iz dela niza na pozicijama [i, n)
+        for (int i = 0; i < a.Length; i++)
+            for (int j = i + 1; j < a.Length; j++)
+                if (a[i] > a[j])    // ako su elementi na pozicijama i i j u naopakom redosledu
+                    Razmeni(ref a[i], ref a[j]);    // razmenjujemo ih
+    }
+    
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = int.Parse(Console.ReadLine());
+        SelectionSort(a);
+        foreach (int x in a) Console.WriteLine(x);
+    }
+}
